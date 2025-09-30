@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Novo Texto</h2>
+
+<mat-dialog-content
+  [style.paddingTop]="'22px'"
+  class="mat-typography"
+  [formGroup]="form"
+  cdkTrapFocus
+>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Título</mat-label>
+    <input matInput formControlName="titulo" placeholder="Digite o título" />
+  </mat-form-field>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Autor</mat-label>
+      <input matInput formControlName="autor" placeholder="Digite o nome do autor" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Data de publicação</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dataPublicacao" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Texto</mat-label>
+    <textarea
+      matInput
+      formControlName="resumo"
+      rows="5"
+      placeholder="Digite o conteúdo aqui..."
+    ></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="fechar()">Cancelar</button>
+  <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="salvar()">
+    Salvar
+  </button>
+</mat-dialog-actions>

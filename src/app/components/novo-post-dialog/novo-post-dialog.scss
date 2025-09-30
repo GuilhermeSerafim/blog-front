@@ -1,0 +1,29 @@
+// Torna o conteúdo do dialog um container flexível vertical
+:host mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; // Adiciona um pequeno espaço entre as linhas
+}
+
+// Classe para a linha que agrupa campos horizontalmente
+.form-row {
+  display: flex;
+  flex-wrap: wrap; // Permite que os campos quebrem a linha em telas pequenas
+  gap: 16px; // Espaçamento entre os campos na mesma linha
+
+  // Faz com que cada campo na linha ocupe o espaço disponível igualmente
+  > mat-form-field {
+    flex: 1;
+    min-width: 200px; // Largura mínima antes de quebrar a linha
+  }
+}
+
+// Classe para campos que devem ocupar 100% da largura
+.full-width {
+  width: 100%;
+}
+
+// Garante que os botões de ação fiquem bem alinhados
+:host mat-dialog-actions {
+  padding: 16px 24px;
+}

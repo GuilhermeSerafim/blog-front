@@ -1,0 +1,5 @@
+@for (item of posts; track $index) {
+<app-card [post]="item" />
+}
+
+<button matButton="elevated" color="primary" (click)="incluirNovoTexto()">Carregar mais</button>

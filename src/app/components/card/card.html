@@ -1,0 +1,18 @@
+@if (post) {
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ post.titulo }}</mat-card-title>
+      <mat-card-subtitle>Autor: {{ post.autor }}</mat-card-subtitle>
+      <mat-card-subtitle class="publication-info">
+        Publicado em {{ post.dataPublicacao | date: 'dd/MM/yyyy' }}
+
+        @if (!post.publicado) {
+          <span class="status-nao-publicado">NÃO PUBLICADO</span>
+        }
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ post.resumo }}</p>
+    </mat-card-content>
+  </mat-card>
+}

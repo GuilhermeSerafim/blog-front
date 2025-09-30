@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+html,
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-base-gray-dark, #1E2127); // fallback
+  background-color: var(--color-base-white, #ffffff); // fallback
+}
+@import '@angular/material/prebuilt-themes/indigo-pink.css';

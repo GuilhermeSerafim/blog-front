@@ -20,10 +20,7 @@ export class Home implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   carregarPosts(): void {
-    this._postService.getAll().subscribe((d) => {
-      this.posts = d;
-      console.log(`Posts carregados:`, this.posts);
-    });
+    this._postService.getAll().subscribe((d) => (this.posts = d));
   }
 
   ngOnInit(): void {
@@ -37,23 +34,11 @@ export class Home implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: IPost | undefined) => {
-      // Verifica se o formulário foi salvo
       if (result) {
-        // **CORREÇÃO 1: Inscreva-se no método addPost para enviar a requisição**
         this._postService.addPost(result).subscribe({
-          next: (postSalvo) => {
-            console.log('Post salvo com sucesso no backend:', postSalvo);
-
-            // **CORREÇÃO 2: Atualize a lista APÓS o sucesso da criação**
-            // Opção A: Re-buscar tudo do servidor (mais seguro)
-            this.carregarPosts();
-
-            // Opção B: Adicionar na lista local (mais rápido, "atualização otimista")
-            // this.posts.push(postSalvo); // Se o backend retornar o post criado com ID
-          },
+          next: () => this.carregarPosts(),
           error: (err) => {
             console.error('Erro ao salvar o post:', err);
-            // Aqui você pode mostrar uma notificação de erro para o usuário
           },
         });
       }

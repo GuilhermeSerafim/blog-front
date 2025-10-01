@@ -32,6 +32,7 @@ export class NovoPostDialog {
   // Injetando dependências de forma moderna
   private readonly fb = inject(FormBuilder);
   public dialogRef = inject(MatDialogRef<NovoPostDialog>);
+  minDate: Date = new Date();
 
   constructor() {
     this.form = this.fb.group({

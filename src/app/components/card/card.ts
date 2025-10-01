@@ -11,4 +11,9 @@ import { CommonModule } from '@angular/common';
 })
 export class Card {
   @Input() post!: IPost;
+  public isNaoPublicado(dataPost: string | Date): boolean {
+    // new Date(dataPost) garante que estamos comparando objetos Date,
+    // mesmo que a data venha como string da API.
+    return new Date(dataPost) > new Date();
+  }
 }

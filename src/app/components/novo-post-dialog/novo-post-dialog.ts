@@ -37,9 +37,8 @@ export class NovoPostDialog {
     this.form = this.fb.group({
       titulo: ['', Validators.required],
       autor: ['', Validators.required],
-      dataPublicacao: [new Date(), Validators.required],
-      resumo: ['', Validators.required],
-      publicado: [false], // Um novo post começa como não publicado
+      dataAtual: [new Date(), Validators.required],
+      postagem: ['', [Validators.required, Validators.minLength(10)]], // Exemplo de mais validadores
     });
   }
 

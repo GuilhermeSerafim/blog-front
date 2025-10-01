@@ -19,23 +19,43 @@ export class Home implements OnInit {
   private readonly _postService = inject(PostService);
   private readonly dialog = inject(MatDialog);
 
+  carregarPosts(): void {
+    this._postService.getAll().subscribe((d) => {
+      this.posts = d;
+      console.log(`Posts carregados:`, this.posts);
+    });
+  }
+
   ngOnInit(): void {
-    this.posts = this._postService.getAll();
+    this.carregarPosts(); // Chama o novo método aqui
   }
 
   incluirNovoTexto(): void {
     const dialogRef = this.dialog.open(NovoPostDialog, {
-      width: '600px', // Defina uma largura para o dialog
-      disableClose: true, // Impede que o usuário feche clicando fora
+      width: '600px',
+      disableClose: true,
     });
 
-    // Escuta o evento de fechamento do dialog
     dialogRef.afterClosed().subscribe((result: IPost | undefined) => {
-      // Se o usuário salvou (result não é undefined), adicione o novo post
+      // Verifica se o formulário foi salvo
       if (result) {
-        this._postService.addPost(result); // Supondo que seu serviço tenha um método addPost
-        this.posts = this._postService.getAll(); // Atualiza a lista para refletir a adição
-        console.log('Novo post salvo:', result);
+        // **CORREÇÃO 1: Inscreva-se no método addPost para enviar a requisição**
+        this._postService.addPost(result).subscribe({
+          next: (postSalvo) => {
+            console.log('Post salvo com sucesso no backend:', postSalvo);
+
+            // **CORREÇÃO 2: Atualize a lista APÓS o sucesso da criação**
+            // Opção A: Re-buscar tudo do servidor (mais seguro)
+            this.carregarPosts();
+
+            // Opção B: Adicionar na lista local (mais rápido, "atualização otimista")
+            // this.posts.push(postSalvo); // Se o backend retornar o post criado com ID
+          },
+          error: (err) => {
+            console.error('Erro ao salvar o post:', err);
+            // Aqui você pode mostrar uma notificação de erro para o usuário
+          },
+        });
       }
     });
   }

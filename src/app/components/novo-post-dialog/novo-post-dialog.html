@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Novo Texto</h2>
+<h2 mat-dialog-title>@if (data) { Alterar publicação } @else { Incluir nova publicação }</h2>
 
 <mat-dialog-content
   [style.paddingTop]="'22px'"
@@ -6,30 +6,40 @@
   [formGroup]="form"
   cdkTrapFocus
 >
+  <!-- Campo Título -->
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Título</mat-label>
     <input matInput formControlName="titulo" placeholder="Digite o título" />
+    @if (form.get('titulo')?.hasError('required')) {
+    <mat-error>O título é obrigatório</mat-error>
+    }
   </mat-form-field>
 
   <div class="form-row">
+    <!-- Campo Autor -->
     <mat-form-field appearance="outline">
       <mat-label>Autor</mat-label>
       <input matInput formControlName="autor" placeholder="Digite o nome do autor" />
+      @if (form.get('autor')?.hasError('required')) {
+      <mat-error>O autor é obrigatório</mat-error>
+      }
     </mat-form-field>
 
+    <!-- Campo Data -->
     <mat-form-field appearance="outline">
       <mat-label>Data de publicação</mat-label>
-      
       <input matInput [matDatepicker]="picker" formControlName="dataPublicacao" />
-      
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      @if (form.get('dataPublicacao')?.hasError('required')) {
+      <mat-error>A data é obrigatória</mat-error>
+      }
     </mat-form-field>
   </div>
 
+  <!-- Campo Texto -->
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Texto</mat-label>
-    
     <textarea
       matInput
       formControlName="texto"
@@ -37,12 +47,17 @@
       placeholder="Digite o conteúdo aqui..."
       minlength="10"
     ></textarea>
-    
+    @if (form.get('texto')?.hasError('required')) {
+    <mat-error>O texto é obrigatório</mat-error>
+    } @if (form.get('texto')?.hasError('minlength')) {
+    <mat-error>O texto deve ter no mínimo 10 caracteres</mat-error>
+    }
   </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="fechar()">Cancelar</button>
+  <!-- O botão Salvar fica desabilitado se o form for inválido -->
   <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="salvar()">
     Salvar
   </button>

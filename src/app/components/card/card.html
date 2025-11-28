@@ -4,17 +4,27 @@
     <mat-card-title>{{ post.titulo }}</mat-card-title>
     <mat-card-subtitle>Autor: {{ post.autor }}</mat-card-subtitle>
     <mat-card-subtitle class="publication-info">
-      
       Publicado em {{ post.dataPublicacao | date : 'dd/MM/yyyy' : 'UTC' }}
 
       @if (isNaoPublicado(post.dataPublicacao)) {
         <span class="status-nao-publicado">NÃO PUBLICADO</span>
       }
-
     </mat-card-subtitle>
   </mat-card-header>
+  
   <mat-card-content>
     <p>{{ post.texto }}</p> 
   </mat-card-content>
+
+  <mat-card-actions align="end" class="botoes">
+    <button mat-flat-button color="primary" (click)="acaoAlterar.emit(post)">
+      Alterar
+    </button>
+
+    <button mat-flat-button color="warn" (click)="acaoExcluir.emit(post)">
+      Excluir
+    </button>
+  </mat-card-actions>
+  
 </mat-card>
 }

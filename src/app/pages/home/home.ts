@@ -6,11 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { NovoPostDialog } from '../../components/novo-post-dialog/novo-post-dialog';
 import { CommonModule } from '@angular/common'; // Importante para o template
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Card, MatButtonModule, CommonModule],
+  imports: [Card, MatButtonModule, CommonModule, MatSnackBarModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -19,6 +20,7 @@ export class Home implements OnInit {
 
   private readonly _postService = inject(PostService);
   private readonly dialog = inject(MatDialog);
+  private readonly _snackBar = inject(MatSnackBar);
 
   ngOnInit(): void {
     this.carregarPosts();
@@ -27,7 +29,7 @@ export class Home implements OnInit {
   carregarPosts(): void {
     this._postService.getAll().subscribe({
       next: (d) => (this.posts = d),
-      error: (e) => console.error('Erro ao carregar posts', e)
+      error: (e) => console.error('Erro ao carregar posts', e),
     });
   }
 
@@ -39,7 +41,13 @@ export class Home implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: IPost) => {
       if (result) {
-        this._postService.addPost(result).subscribe(() => this.carregarPosts());
+        this._postService.addPost(result).subscribe({
+          next: () => {
+            this.carregarPosts();
+            this.mostrarMensagem('Publicação adicionada com sucesso!');
+          },
+          error: () => this.mostrarMensagem('Erro ao adicionar publicação.'),
+        });
       }
     });
   }
@@ -50,10 +58,10 @@ export class Home implements OnInit {
     if (confirm(`Deseja excluir a publicação ID ${post.id}?`)) {
       this._postService.deletePost(post.id).subscribe({
         next: () => {
-          alert('Excluído com sucesso!');
+          this.mostrarMensagem('Publicação excluída com sucesso!');
           this.carregarPosts();
         },
-        error: () => alert('Erro ao excluir.')
+        error: () => this.mostrarMensagem('Erro ao excluir publicação.'),
       });
     }
   }
@@ -62,19 +70,27 @@ export class Home implements OnInit {
     const dialogRef = this.dialog.open(NovoPostDialog, {
       width: '600px',
       disableClose: true,
-      data: post
+      data: post,
     });
 
     dialogRef.afterClosed().subscribe((result: IPost) => {
       if (result && post.id) {
         this._postService.updatePost(post.id, result).subscribe({
           next: () => {
-             alert('Alterado com sucesso!');
-             this.carregarPosts();
+            this.mostrarMensagem('Publicação alterada com sucesso!');
+            this.carregarPosts();
           },
-          error: () => alert('Erro ao alterar.')
+          error: () => this.mostrarMensagem('Erro ao alterar publicação.'),
         });
       }
+    });
+  }
+
+  private mostrarMensagem(msg: string) {
+    this._snackBar.open(msg, 'Fechar', {
+      duration: 3000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
     });
   }
 }

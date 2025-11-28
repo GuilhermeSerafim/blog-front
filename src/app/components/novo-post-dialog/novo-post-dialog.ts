@@ -28,18 +28,15 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 })
 export class NovoPostDialog {
   form: FormGroup;
-
-  // Injetando dependências de forma moderna
   private readonly fb = inject(FormBuilder);
   public dialogRef = inject(MatDialogRef<NovoPostDialog>);
-  minDate: Date = new Date();
 
   constructor() {
     this.form = this.fb.group({
       titulo: ['', Validators.required],
       autor: ['', Validators.required],
-      dataAtual: [new Date(), Validators.required],
-      postagem: ['', [Validators.required, Validators.minLength(10)]], // Exemplo de mais validadores
+      dataPublicacao: [new Date(), Validators.required], // Mudou nome
+      texto: ['', [Validators.required, Validators.minLength(10)]], // Mudou nome
     });
   }
 

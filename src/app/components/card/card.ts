@@ -11,14 +11,15 @@ import { CommonModule } from '@angular/common';
 })
 export class Card {
   @Input() post!: IPost;
-  public isNaoPublicado(dataPost: string | Date): boolean {
-    // Se dataPost não for uma string (já for um Date), não fazemos nada.
-    // Se for uma string, garantimos que ela termine com 'Z' para ser tratada como UTC.
-    const dataStringUTC =
-      typeof dataPost === 'string' && !dataPost.endsWith('Z') ? dataPost + 'Z' : dataPost;
+  
+  public isNaoPublicado(dataPost: string): boolean {
+    if (!dataPost) return false;
 
-    // Agora, a comparação é robusta contra problemas de fuso horário.
-    // Ambos os objetos Date representarão um ponto exato no tempo universal.
-    return new Date(dataStringUTC) > new Date();
+    const dataPublicacao = new Date(dataPost + 'T00:00:00');
+    const hoje = new Date();
+
+    hoje.setHours(0, 0, 0, 0);
+
+    return dataPublicacao > hoje;
   }
 }

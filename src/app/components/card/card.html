@@ -5,16 +5,16 @@
     <mat-card-subtitle>Autor: {{ post.autor }}</mat-card-subtitle>
     <mat-card-subtitle class="publication-info">
       
-      Publicado em {{ post.dataAtual | date : 'dd/MM/yyyy' }}
+      Publicado em {{ post.dataPublicacao | date : 'dd/MM/yyyy' : 'UTC' }}
 
-      @if (isNaoPublicado(post.dataAtual)) {
+      @if (isNaoPublicado(post.dataPublicacao)) {
         <span class="status-nao-publicado">NÃO PUBLICADO</span>
       }
 
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <p>{{ post.postagem }}</p> 
+    <p>{{ post.texto }}</p> 
   </mat-card-content>
 </mat-card>
 }

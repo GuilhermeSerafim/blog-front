@@ -1,6 +1,7 @@
 export interface IPost {
+  id?: number;
   titulo: string;
   autor: string;
-  dataAtual: Date;
-  postagem: string;
+  dataPublicacao: string;
+  texto: string;
 }

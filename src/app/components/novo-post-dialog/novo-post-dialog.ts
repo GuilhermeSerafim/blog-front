@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog'; // Importar MAT_DIALOG_DATA
 import { CommonModule } from '@angular/common';
 
-// Imports do Angular Material
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { IPost } from '../../interfaces/post.interface';
 
 @Component({
   selector: 'app-novo-post-dialog',
@@ -22,33 +22,43 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatButtonModule,
     MatDatepickerModule,
   ],
-  providers: [provideNativeDateAdapter()], // Necessário para o MatDatepicker
+  providers: [provideNativeDateAdapter()],
   templateUrl: './novo-post-dialog.html',
   styleUrls: ['./novo-post-dialog.scss'],
 })
 export class NovoPostDialog {
   form: FormGroup;
+
   private readonly fb = inject(FormBuilder);
   public dialogRef = inject(MatDialogRef<NovoPostDialog>);
+  
+  public data = inject<IPost>(MAT_DIALOG_DATA); 
 
   constructor() {
     this.form = this.fb.group({
       titulo: ['', Validators.required],
       autor: ['', Validators.required],
-      dataPublicacao: [new Date(), Validators.required], // Mudou nome
-      texto: ['', [Validators.required, Validators.minLength(10)]], // Mudou nome
+      dataPublicacao: [new Date(), Validators.required],
+      texto: ['', [Validators.required, Validators.minLength(10)]],
     });
+
+    if (this.data) {
+      this.form.patchValue({
+        titulo: this.data.titulo,
+        autor: this.data.autor,
+        dataPublicacao: new Date(this.data.dataPublicacao + 'T00:00:00'),
+        texto: this.data.texto
+      });
+    }
   }
 
   salvar(): void {
     if (this.form.valid) {
-      // Fecha o dialog e retorna os dados do formulário
       this.dialogRef.close(this.form.value);
     }
   }
 
   fechar(): void {
-    // Fecha o dialog sem retornar dados
     this.dialogRef.close();
   }
 }

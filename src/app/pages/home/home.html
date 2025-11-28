@@ -1,12 +1,23 @@
+<!-- Loop dos cards -->
 @for (item of posts; track $index) {
-<app-card [post]="item" />
+  <!-- Conectamos os eventos do filho (Card) com as funções do pai (Home) -->
+  <app-card 
+      [post]="item" 
+      (acaoAlterar)="alterarTexto($event)" 
+      (acaoExcluir)="excluirTexto($event)" 
+  />
 }
 
 <button
   [style.marginTop]="'22px'"
-  matButton="elevated"
+  mat-raised-button
   color="primary"
   (click)="incluirNovoTexto()"
 >
-  Carregar mais
+  Incluir nova publicação
 </button>
+
+<!-- Footer obrigatório conforme PDF -->
+<footer style="margin-top: 40px; padding: 20px; text-align: center; background: #eee;">
+  Guilherme da Silva Serafim / Celso Alves De Almeida Oliveira / Turma 3A Noturno / 2025
+</footer>

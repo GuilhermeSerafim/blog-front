@@ -1,25 +1,24 @@
 .publication-info {
   display: flex;
   align-items: center;
-  gap: 8px; // Espaço entre a data e o badge
+  gap: 8px;
 
-  // Agora temos apenas o estilo para o badge de "não publicado"
   .status-nao-publicado {
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.75em;
     font-weight: 600;
     color: white;
-    background-color: #fd7e14; // Laranja
+    background-color: #fd7e14;
   }
 }
 
 .botoes {
   display: flex;
-  gap: 8px; // Espaço entre os botões
+  gap: 8px; 
   margin-top: 12px;
 
   button {
-    text-transform: none; // Mantém o texto do botão como está
+    text-transform: none;
   }
 }

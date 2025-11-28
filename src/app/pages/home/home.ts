@@ -5,7 +5,7 @@ import { IPost } from '../../interfaces/post.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { NovoPostDialog } from '../../components/novo-post-dialog/novo-post-dialog';
-import { CommonModule } from '@angular/common'; // Importante para o template
+import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({

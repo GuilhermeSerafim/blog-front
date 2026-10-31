@@ -1,5 +1,15 @@
 # Blog
 
+## Contexto do projeto
+
+Desafio de desenvolvimento web do Centro Universitário Senac. A página principal carrega postagens e usa diálogos para incluir e alterar textos, além de solicitar exclusão. O serviço HTTP implementa GET, POST, PUT e DELETE.
+
+## Dependência da API e execução
+
+`src/app/services/post.service.ts` aponta para `http://localhost:8080/api/postagens`. A API complementar está em [blog-back](https://github.com/GuilhermeSerafim/blog-back). O frontend precisa de uma API compatível disponível nesse endereço; iniciar apenas o Angular não fornece os dados.
+
+Com Node.js e npm compatíveis com Angular 20, `npm install` instala as dependências e `npm start` usa o script `ng serve` do manifesto. `npm run build` e `npm test` também estão declarados.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
 
 ## Development server
